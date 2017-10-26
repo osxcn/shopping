@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leaves.shopping.mapper.TrxMapper">
+
+    <select id="getBuyContentIdList" parameterType="Integer" resultType="Integer">
+        SELECT contentId
+        FROM trx
+        WHERE personId = #{personId}
+        GROUP BY contentId
+    </select>
+
+    <select id="getIsSellContentIdList" resultType="Integer">
+        SELECT contentId
+        FROM trx
+        GROUP BY contentId
+    </select>
+</mapper>
