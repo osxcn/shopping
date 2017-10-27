@@ -72,35 +72,44 @@ function addInventory(id) {
             content: '确认进货' + value + '件吗？',
             btn: ['确定', '关闭'],
             yes: function (index) {
-                var param = {"cid": id, "num": value};
-                $.ajax({
-                    url: "/inventory/add",
-                    type: "post",
-                    data: param,
-                    success: function (data) {
-                        console.log(data);
-                        if(data.code == "200") {
-                            layer.open({
-                                title: '提示',
-                                content: '进货成功',
-                                btn: ['确定'],
-                                icon: 1,
-                                btn1: function (index) {
-                                    window.location.reload(true);
+                if (!isNaN(value)) {
+                    if (value > 0) {
+                        var param = {"cid": id, "num": value};
+                        $.ajax({
+                            url: "/inventory/add",
+                            type: "post",
+                            data: param,
+                            success: function (data) {
+                                console.log(data);
+                                if(data.code == "200") {
+                                    layer.open({
+                                        title: '提示',
+                                        content: '进货成功',
+                                        btn: ['确定'],
+                                        icon: 1,
+                                        btn1: function (index) {
+                                            window.location.reload(true);
+                                        }
+                                    });
+                                } else {
+                                    layer.open({
+                                        title: '提示',
+                                        content: data.message,
+                                        icon: 2
+                                    });
                                 }
-                            });
-                        } else {
-                            layer.open({
-                                title: '提示',
-                                content: data.message,
-                                icon: 2
-                            });
-                        }
-                    },
-                    error: function (data) {
-                        console.log(data);
+                            },
+                            error: function (data) {
+                                console.log(data);
+                            }
+                        });
+                    } else {
+                        layer.alert("至少进货一件");
                     }
-                });
+                } else {
+                    layer.alert("必须输入数字");
+                }
+
             },
             cancel: function (index) {
                 layer.close(index);
