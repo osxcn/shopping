@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @author 偶是小菜鸟
  * @version 1.0
  */
-@Table(name = "TEMPORARY")
+@Table(name = "temporary")
 public class Temporary {
 
     /**
