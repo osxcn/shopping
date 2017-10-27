@@ -120,13 +120,21 @@
     <plugins>
       <!-- 编译源码的JDK版本 -->
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<compilerVersion>1.6</compilerVersion>
+					<compilerId>javac</compilerId>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+					<failOnError>true</failOnError>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<verbose>false</verbose>
+				</configuration>
+			</plugin>
     </plugins>
   </build>
 </project>
