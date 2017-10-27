@@ -7,7 +7,6 @@
 <div class="g-doc">
     <div class="n-result">
         <h3>
-            ${error}
             ERROR ${error.code}: ${error.message}
         </h3>
         <p><a href="/">[返回首页]</a></p>
