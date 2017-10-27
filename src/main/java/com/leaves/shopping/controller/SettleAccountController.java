@@ -45,7 +45,7 @@ public class SettleAccountController {
             ModelMap map,
             HttpSession session
     ) throws Exception {
-        List<SettleAccountDto> sadList = new ArrayList<>();
+        List<SettleAccountDto> sadList = new ArrayList<SettleAccountDto>();
 
         // 获取用户ID
         Integer personId = ((Person) session.getAttribute(Session.UserSession)).getId();
