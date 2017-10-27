@@ -2,6 +2,7 @@ package com.leaves.shopping.controller;
 
 import com.leaves.shopping.mapper.PersonMapper;
 import com.leaves.shopping.model.Person;
+import com.leaves.shopping.util.Result;
 import com.leaves.shopping.util.Session;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 登录相关
@@ -47,24 +46,16 @@ public class LoginController {
             @Param("password") String password,
             HttpSession session
     ) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
         Person person = new Person();
         person.setUsername(userName);
         person.setPassword(password);
         person = personMapper.selectOne(person);
         if(person != null) {
             session.setAttribute("user", person);
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
+            return Result.success();
         } else {
-            result.put("code", 201);
-            result.put("message","登录失败");
-            result.put("result", false);
+            return Result.failed("登录失败");
         }
-
-        return result;
     }
 
     /**
@@ -85,18 +76,11 @@ public class LoginController {
      */
     @RequestMapping(value = "/api/isLogin", method = RequestMethod.GET)
     public Object isLogin(HttpSession session) {
-        Map<String, Object> result = new HashMap<String, Object>();
         if (session.getAttribute(Session.UserSession) != null) {
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
+            return Result.success();
         } else {
-            result.put("code", 201);
-            result.put("message","failed");
-            result.put("result", false);
+            return Result.failed();
         }
-
-        return result;
     }
 
 }

@@ -4,13 +4,12 @@ import com.leaves.shopping.dto.ContentDto;
 import com.leaves.shopping.mapper.ContentMapper;
 import com.leaves.shopping.model.Content;
 import com.leaves.shopping.service.ContentService;
+import com.leaves.shopping.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author 偶是小菜鸟
@@ -114,19 +113,12 @@ public class ContentController {
     public Object delete(
             @RequestParam("cid") Integer cid
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             contentService.deleteContent(cid);
 
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
+            return Result.success();
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","进货失败");
-            result.put("result", false);
-            return result;
+            return Result.failed("内容删除失败");
         }
     }
 
@@ -141,19 +133,12 @@ public class ContentController {
     public Object switchStatus(
             @RequestParam("cid") Integer cid
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             contentService.switchStatus(cid);
 
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
+            return Result.success();
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","进货失败");
-            result.put("result", false);
-            return result;
+            return Result.failed();
         }
     }
 }

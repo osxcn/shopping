@@ -2,6 +2,7 @@ package com.leaves.shopping.controller;
 
 import com.leaves.shopping.mapper.InventoryMapper;
 import com.leaves.shopping.model.Inventory;
+import com.leaves.shopping.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author 偶是小菜鸟
@@ -36,22 +35,15 @@ public class SellerController {
             @RequestParam("cid") Integer cid,
             @RequestParam("num") Integer num
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             Inventory inventory = new Inventory();
             inventory.setCid(cid);
             inventory.setNum(num);
             inventoryMapper.insertSelective(inventory);
 
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
+            return Result.success();
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","进货失败");
-            result.put("result", false);
-            return result;
+            return Result.failed("进货失败");
         }
     }
 

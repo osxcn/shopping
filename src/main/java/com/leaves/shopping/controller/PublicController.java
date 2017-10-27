@@ -3,6 +3,7 @@ package com.leaves.shopping.controller;
 import com.leaves.shopping.dto.ContentDto;
 import com.leaves.shopping.model.Content;
 import com.leaves.shopping.service.ContentService;
+import com.leaves.shopping.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,16 +120,9 @@ public class PublicController {
                     + request.getServerName() + ":" + request.getServerPort()
                     + request.getContextPath() + "/image/" + imageName;
 
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", imgUrl);
-            return result;
+            return Result.returnResult(imgUrl);
         } catch (Exception e) {
-            e.printStackTrace();
-            result.put("code", 201);
-            result.put("message","failed");
-            result.put("result", false);
-            return result;
+            return Result.failed();
         }
     }
 }
