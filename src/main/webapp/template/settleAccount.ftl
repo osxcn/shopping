@@ -31,7 +31,7 @@
 			<#list settleAccountList as sa>
 			<tr>
 				<td class="checklist">
-					<#if sa.status == 0>
+					<#if sa.status == 0 && sa.inventory &gt; 0>
 					<input type="checkbox" name="check" tid="${sa.id}" />
 					</#if>
 				</td>
@@ -50,6 +50,10 @@
 				<#if sa.status == 1>
 				<td colspan="2">
 					<h2>商品已下架，请删除</h2>
+				</td>
+				<#elseif sa.inventory == 0>
+				<td colspan="2">
+					<h2>商品暂无库存，请删除</h2>
 				</td>
 				<#else>
                 <td class="num">
