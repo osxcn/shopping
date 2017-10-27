@@ -37,7 +37,7 @@ public class SellerController {
             @RequestParam("cid") Integer cid,
             @RequestParam("num") Integer num
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             Inventory inventory = new Inventory();
             inventory.setCid(cid);

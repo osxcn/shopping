@@ -87,7 +87,7 @@ public class PublicController {
     @RequestMapping(value = "/api/upload", method = RequestMethod.POST)
     @ResponseBody
     public Object upload(HttpServletRequest request) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             // 将文件放置位置设置为静态资源目录image中

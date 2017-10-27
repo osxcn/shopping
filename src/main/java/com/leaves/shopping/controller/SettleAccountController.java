@@ -96,7 +96,7 @@ public class SettleAccountController {
             @RequestParam("num") Integer num,
             HttpSession session
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             // 获取用户ID
             Integer personId = ((Person) session.getAttribute(Session.UserSession)).getId();
@@ -141,7 +141,7 @@ public class SettleAccountController {
             @RequestParam("id") Integer id,
             @RequestParam("num") Integer num
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             Temporary temporary = temporaryMapper.selectByPrimaryKey(id);
             temporary.setNum(num);
@@ -168,7 +168,7 @@ public class SettleAccountController {
     public Object delete(
             @RequestParam("id") Integer id
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             temporaryMapper.deleteByPrimaryKey(id);
 
@@ -201,7 +201,7 @@ public class SettleAccountController {
             @RequestParam(value = "num", defaultValue = "") Integer num,
             HttpSession session
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             // 获取用户ID
             Integer personId = ((Person) session.getAttribute(Session.UserSession)).getId();

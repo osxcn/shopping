@@ -47,7 +47,7 @@ public class LoginController {
             @Param("password") String password,
             HttpSession session
     ) {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
 
         Person person = new Person();
         person.setUsername(userName);
@@ -85,7 +85,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/api/isLogin", method = RequestMethod.GET)
     public Object isLogin(HttpSession session) {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         if (session.getAttribute(Session.UserSession) != null) {
             result.put("code", 200);
             result.put("message","success");

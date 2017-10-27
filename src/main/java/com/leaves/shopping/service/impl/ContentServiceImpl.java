@@ -78,7 +78,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<ContentDto> getAllContents() throws Exception {
-        List<ContentDto> contentList = new ArrayList<>(16);
+        List<ContentDto> contentList = new ArrayList<ContentDto>();
         // 获取所有内容列表
         List<Content> contents = contentMapper.selectAll();
         // 获取有销售记录的内容ID列表
@@ -107,7 +107,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<ContentDto> getIsSellContents() throws Exception {
-        List<ContentDto> contentList = new ArrayList<>(16);
+        List<ContentDto> contentList = new ArrayList<ContentDto>();
         // 获取有销售记录的内容ID列表
         List<Integer> cidList = trxMapper.getIsSellContentIdList();
         if(cidList.size() == 0) {
@@ -217,7 +217,7 @@ public class ContentServiceImpl implements ContentService {
      * @throws Exception exception
      */
     private List<ContentDto> getContentList(List<Content> contents) throws Exception {
-        List<ContentDto> contentList = new ArrayList<>(16);
+        List<ContentDto> contentList = new ArrayList<ContentDto>();
 
         for(Content content : contents) {
             ContentDto contentDto = new ContentDto();

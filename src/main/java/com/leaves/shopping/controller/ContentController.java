@@ -114,7 +114,7 @@ public class ContentController {
     public Object delete(
             @RequestParam("cid") Integer cid
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             contentService.deleteContent(cid);
 
@@ -141,7 +141,7 @@ public class ContentController {
     public Object switchStatus(
             @RequestParam("cid") Integer cid
     ) throws Exception {
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             contentService.switchStatus(cid);
 
