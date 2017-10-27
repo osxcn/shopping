@@ -161,40 +161,50 @@ function del(id) {
  * 购物车结算
  */
 function buy() {
-    var tidList = "";
-    $("input[name='check']:checked").each(function () {
-        tidList += $(this).attr("tid") + ",";
-    });
-    var param = {"tidList": tidList};
-    $.ajax({
-        url: "/settleAccount/buy",
-        type: "post",
-        data: param,
-        success: function (data) {
-            console.log(data);
-            if(data.code == "200") {
-                layer.open({
-                    title: '提示',
-                    content: '结算成功',
-                    btn: ['继续结算','返回首页'],
-                    icon: 1,
-                    btn1: function (index) {
-                        window.location.reload(true);
-                    },
-                    btn2: function (index) {
-                        window.location.href = "/";
+    layer.open({
+        title: '提示',
+        content: '确认购买这些内容吗？',
+        btn: ['确定', '关闭'],
+        yes: function (index) {
+            var tidList = "";
+            $("input[name='check']:checked").each(function () {
+                tidList += $(this).attr("tid") + ",";
+            });
+            var param = {"tidList": tidList};
+            $.ajax({
+                url: "/settleAccount/buy",
+                type: "post",
+                data: param,
+                success: function (data) {
+                    console.log(data);
+                    if(data.code == "200") {
+                        layer.open({
+                            title: '提示',
+                            content: '结算成功',
+                            btn: ['继续结算','返回首页'],
+                            icon: 1,
+                            btn1: function (index) {
+                                window.location.reload(true);
+                            },
+                            btn2: function (index) {
+                                window.location.href = "/";
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            title: '提示',
+                            content: data.message,
+                            icon: 2
+                        });
                     }
-                });
-            } else {
-                layer.open({
-                    title: '提示',
-                    content: data.message,
-                    icon: 2
-                });
-            }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
         },
-        error: function (data) {
-            console.log(data);
+        cancel: function (index) {
+            layer.close(index);
         }
     });
 }
