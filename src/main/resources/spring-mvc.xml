@@ -24,6 +24,7 @@
     <mvc:resources mapping="/js/**" location="/js/" />
     <mvc:resources mapping="/include/**" location="template/include/" />
     <mvc:resources mapping="/plugins/**" location="/plugins/" />
+	<mvc:resources mapping="/favicon.ico" location="/favicon.ico"/>
 
     <mvc:view-controller path="/404" view-name="error/404"/>
 
