@@ -72,8 +72,15 @@ public class ContentServiceImpl implements ContentService {
         Example.Criteria c = example.createCriteria();
         c.andNotIn("id", cidList);
         List<Content> contents = contentMapper.selectByExample(example);
+        List<Content> contentList = new ArrayList<Content>();
+        for (Content content : contents) {
+            int inventory = inventoryService.getInventoryByCid(content.getId());
+            if (inventory != 0) {
+                contentList.add(content);
+            }
+        }
 
-        return getContentList(contents);
+        return getContentList(contentList);
     }
 
     @Override
