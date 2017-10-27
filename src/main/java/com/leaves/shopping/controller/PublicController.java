@@ -63,7 +63,9 @@ public class PublicController {
     ) throws Exception {
         try {
             Content content = new Content();
+            title = new String(title.getBytes("ISO-8859-1"),"UTF-8");
             content.setTitle(title);
+            summary = new String(title.getBytes("ISO-8859-1"),"UTF-8");
             content.setSummary(summary);
             content.setPrice(price);
             content.setSalePrice(salePrice);
