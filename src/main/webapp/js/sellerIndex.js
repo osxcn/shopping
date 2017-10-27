@@ -35,7 +35,7 @@ function switchStatus(id, content) {
                         } else {
                             layer.open({
                                 title: '提示',
-                                content: data.message,
+                                content: content + '失败',
                                 icon: 2
                             });
                         }
