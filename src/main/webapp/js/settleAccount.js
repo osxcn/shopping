@@ -94,7 +94,7 @@ function editNum(id, num) {
             if(data.code == "200") {
                 $("#allNum" + id).val(num);
                 var price = $("#price" + id).text();
-                var payment = price * num;
+                var payment = accMul(price, num);
                 $("#payment" + id).html(payment);
             } else {
                 layer.open({
