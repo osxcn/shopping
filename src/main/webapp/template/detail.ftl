@@ -36,6 +36,9 @@
                 <span id="addNum" class="moreNum"><a>+</a></span>
                 <span style="margin-left: 20px;" class="v-unit">库存<span id="inventory">${product.inventory}</span>件</span>
             </div>
+            <#if product.inventory == 0>
+            <h2>商品暂无库存</h2>
+            <#else>
             <div class="oprt f-cb">
                 <button class="u-btn u-btn-primary" id="buy">
                     立即购买</button>
@@ -43,6 +46,7 @@
                 <button class="u-btn u-btn-primary" id="add">
                     加入购物车</button>
             </div>
+            </#if>
             </#if>
         </div>
     </div>
