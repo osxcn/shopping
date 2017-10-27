@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页控制类
@@ -116,31 +118,39 @@ public class IndexController {
     ) throws Exception {
         // 获取商品信息
         Content content = contentMapper.selectByPrimaryKey(id);
-        // 获取商品库存
-        int inventory = inventoryService.getInventoryByCid(id);
+        if(content != null) {
+            // 获取商品库存
+            int inventory = inventoryService.getInventoryByCid(id);
 
-        ContentDto contentDto = new ContentDto();
-        contentDto.setId(content.getId());
-        contentDto.setTitle(content.getTitle());
-        contentDto.setSummary(content.getSummary());
-        contentDto.setPrice(content.getPrice());
-        contentDto.setSalePrice(content.getSalePrice());
-        contentDto.setInventory(inventory);
-        contentDto.setStatus(content.getStatus());
-        byte[] icon = content.getIcon();
-        if (icon != null) {
-            contentDto.setImage(new String(icon, "utf-8"));
-        }
-        byte[] text = content.getText();
-        if (text != null) {
-            contentDto.setDetail(new String(text, "utf-8"));
-        }
+            ContentDto contentDto = new ContentDto();
+            contentDto.setId(content.getId());
+            contentDto.setTitle(content.getTitle());
+            contentDto.setSummary(content.getSummary());
+            contentDto.setPrice(content.getPrice());
+            contentDto.setSalePrice(content.getSalePrice());
+            contentDto.setInventory(inventory);
+            contentDto.setStatus(content.getStatus());
+            byte[] icon = content.getIcon();
+            if (icon != null) {
+                contentDto.setImage(new String(icon, "utf-8"));
+            }
+            byte[] text = content.getText();
+            if (text != null) {
+                contentDto.setDetail(new String(text, "utf-8"));
+            }
 
-        map.addAttribute("product", contentDto);
-        if("".equals(type)) {
-            return "detail";
+            map.addAttribute("product", contentDto);
+            if("".equals(type)) {
+                return "detail";
+            } else {
+                return "sellerDetail";
+            }
         } else {
-            return "sellerDetail";
+            Map<String, Object> error = new HashMap<String,Object>();
+            error.put("code", "");
+            error.put("message", "商品不存在，可能已经被删除");
+            map.addAttribute("error", error);
+            return "error/error";
         }
     }
 }
