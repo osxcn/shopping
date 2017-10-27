@@ -2,7 +2,6 @@ package com.leaves.shopping.service;
 
 import com.leaves.shopping.dto.ContentDto;
 import com.leaves.shopping.model.Content;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 

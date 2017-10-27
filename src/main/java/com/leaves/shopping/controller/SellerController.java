@@ -2,7 +2,6 @@ package com.leaves.shopping.controller;
 
 import com.leaves.shopping.mapper.InventoryMapper;
 import com.leaves.shopping.model.Inventory;
-import com.leaves.shopping.service.ContentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

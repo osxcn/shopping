@@ -2,9 +2,7 @@ package com.leaves.shopping.controller;
 
 import com.leaves.shopping.dto.ContentDto;
 import com.leaves.shopping.mapper.ContentMapper;
-import com.leaves.shopping.mapper.InventoryMapper;
 import com.leaves.shopping.model.Content;
-import com.leaves.shopping.model.Inventory;
 import com.leaves.shopping.model.Person;
 import com.leaves.shopping.service.ContentService;
 import com.leaves.shopping.service.InventoryService;
@@ -14,13 +12,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 首页控制类
