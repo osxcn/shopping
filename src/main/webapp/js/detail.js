@@ -175,7 +175,7 @@ $("#add").on("click", function () {
                     title: '提示',
                     time: 10000,// 10秒后自动关闭
                     icon: 0,
-                    content: '登录后才可购买，请登录'
+                    content: '登录后才可加入购物车，请登录'
                 });
             }
         },
