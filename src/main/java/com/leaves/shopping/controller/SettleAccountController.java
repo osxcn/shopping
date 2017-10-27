@@ -6,7 +6,9 @@ import com.leaves.shopping.mapper.TemporaryMapper;
 import com.leaves.shopping.model.Content;
 import com.leaves.shopping.model.Person;
 import com.leaves.shopping.model.Temporary;
+import com.leaves.shopping.service.InventoryService;
 import com.leaves.shopping.service.SettleAccountService;
+import com.leaves.shopping.util.Result;
 import com.leaves.shopping.util.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +36,9 @@ public class SettleAccountController {
     @Resource
     private SettleAccountService settleAccountService;
 
+    @Resource
+    private InventoryService inventoryService;
+
     /**
      * 查看购物车
      * @param map map
@@ -57,6 +62,8 @@ public class SettleAccountController {
         for(Temporary temporary : temporaryList) {
             SettleAccountDto sad = new SettleAccountDto();
             Content content = contentMapper.selectByPrimaryKey(temporary.getCid());
+            // 查询商品库存
+            int inventory = inventoryService.getInventoryByCid(temporary.getCid());
             // 计算支付金额
             Double price = content.getSalePrice();
             Integer num = temporary.getNum();
@@ -73,6 +80,7 @@ public class SettleAccountController {
             sad.setNum(num);
             sad.setPayment(payment);
             sad.setStatus(content.getStatus());
+            sad.setInventory(inventory);
 
             sadList.add(sad);
         }
@@ -96,10 +104,15 @@ public class SettleAccountController {
             @RequestParam("num") Integer num,
             HttpSession session
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             // 获取用户ID
             Integer personId = ((Person) session.getAttribute(Session.UserSession)).getId();
+            // 查询商品库存
+            int inventory = inventoryService.getInventoryByCid(cid);
+            // 如果数量大于库存，返回错误
+            if (num > inventory) {
+                return Result.failed("商品加购件数(含已加购件数)已超过库存");
+            }
             // 查询购物车中是否含有同种商品
             Temporary temporary = new Temporary();
             temporary.setCid(cid);
@@ -108,7 +121,11 @@ public class SettleAccountController {
             if(temporary != null) {
                 // 如果含有同种商品，则更新数量，数量为购物车中数量加新增数量
                 int tnum = temporary.getNum();
-                temporary.setNum(tnum + num);
+                int newNum = tnum + num;
+                if (newNum > inventory) {
+                    return Result.failed("商品加购件数(含已加购件数)已超过库存");
+                }
+                temporary.setNum(newNum);
                 temporaryMapper.updateByPrimaryKeySelective(temporary);
             } else {
                 // 如果购物车中没有该商品，则新增购物车记录
@@ -118,15 +135,9 @@ public class SettleAccountController {
                 temporary.setNum(num);
                 temporaryMapper.insertSelective(temporary);
             }
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
+            return Result.success();
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","加入购物车失败");
-            result.put("result", false);
-            return result;
+            return Result.failed("加入购物车失败！");
         }
     }
 
@@ -141,21 +152,20 @@ public class SettleAccountController {
             @RequestParam("id") Integer id,
             @RequestParam("num") Integer num
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             Temporary temporary = temporaryMapper.selectByPrimaryKey(id);
+            // 查询商品库存
+            int inventory = inventoryService.getInventoryByCid(temporary.getCid());
+            // 如果数量大于库存，返回错误
+            if (num > inventory) {
+                return Result.failed("数量大于库存！");
+            }
             temporary.setNum(num);
             temporaryMapper.updateByPrimaryKeySelective(temporary);
 
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
+            return Result.success();
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","修改数量失败");
-            result.put("result", false);
-            return result;
+            return Result.failed("修改数量失败！");
         }
     }
 
@@ -168,19 +178,12 @@ public class SettleAccountController {
     public Object delete(
             @RequestParam("id") Integer id
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             temporaryMapper.deleteByPrimaryKey(id);
 
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
+            return Result.success();
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","修改数量失败");
-            result.put("result", false);
-            return result;
+            return Result.failed("删除记录失败！");
         }
     }
 
@@ -201,30 +204,35 @@ public class SettleAccountController {
             @RequestParam(value = "num", defaultValue = "") Integer num,
             HttpSession session
     ) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
         try {
             // 获取用户ID
             Integer personId = ((Person) session.getAttribute(Session.UserSession)).getId();
             if(!"".equals(tidList)) {
+                boolean isTrue = true;
                 // 购物车购买
                 StringTokenizer tmp = new StringTokenizer(tidList, ",");
                 while ( tmp.hasMoreElements() ){
-                    settleAccountService.buyFromTemporary(personId, Integer.parseInt(tmp.nextToken()));
+                    boolean isThisTrue = settleAccountService.buyFromTemporary(personId, Integer.parseInt(tmp.nextToken()));
+                    if(!isThisTrue) {
+                        isTrue = false;
+                    }
+                }
+                if(isTrue) {
+                    return Result.success();
+                } else {
+                    return Result.failed("部分商品购买数量已超过库存");
                 }
             } else {
                 // 直接购买
-                settleAccountService.buy(personId, cid, num);
+                boolean isTrue = settleAccountService.buy(personId, cid, num);
+                if(isTrue) {
+                    return Result.success();
+                } else {
+                    return Result.failed("商品购买数量已超过库存");
+                }
             }
-
-            result.put("code", 200);
-            result.put("message","success");
-            result.put("result", true);
-            return result;
         } catch (Exception e) {
-            result.put("code", 201);
-            result.put("message","购买失败");
-            result.put("result", false);
-            return result;
+            return Result.failed("购买失败！");
         }
     }
 }

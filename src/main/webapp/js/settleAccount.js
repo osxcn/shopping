@@ -7,6 +7,11 @@ $(function () {
         console.log(e);
         var num = e.currentTarget.value;
         var id = $("#" + e.currentTarget.id).attr("tid");
+        var inventory = $("#inventory" + id).val();
+        if(Number(num) > Number(inventory)) {
+            num = inventory;
+            $("#allNum" + id).val(num);
+        }
         editNum(id, num);
     });
 
@@ -67,7 +72,7 @@ function plusNum(id) {
 function addNum(id) {
     var num = $("#allNum" + id).val();
     var inventory = $("#inventory" + id).val();
-    if(num < inventory) {
+    if(Number(num) < Number(inventory)) {
         num++;
         editNum(id, num);
     }

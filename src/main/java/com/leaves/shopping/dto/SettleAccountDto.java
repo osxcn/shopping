@@ -25,6 +25,11 @@ public class SettleAccountDto extends Temporary {
     private Double price;
 
     /**
+     * 库存
+     */
+    private Integer inventory;
+
+    /**
      * 支付金额
      */
     private Double payment;
@@ -56,6 +61,14 @@ public class SettleAccountDto extends Temporary {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 
     public Double getPayment() {

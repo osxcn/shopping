@@ -12,7 +12,7 @@ public interface SettleAccountService {
      * @param num 购买数量
      * @throws Exception exception
      */
-    void buy(Integer personId, Integer cid, Integer num) throws Exception;
+    boolean buy(Integer personId, Integer cid, Integer num) throws Exception;
 
     /**
      * 从购物车中购买
@@ -20,5 +20,5 @@ public interface SettleAccountService {
      * @param tid 购物车id
      * @throws Exception exception
      */
-    void buyFromTemporary(Integer personId, Integer tid) throws Exception;
+    boolean buyFromTemporary(Integer personId, Integer tid) throws Exception;
 }

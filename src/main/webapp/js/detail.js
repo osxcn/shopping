@@ -1,5 +1,13 @@
 $(function () {
-
+    // 焦点离开购买数量输入框时执行更新记录操作
+    $("#allNum").on("blur",function (e) {
+        var num = $(this).val();
+        var inventory = $("#inventory").html();
+        if(Number(num) > Number(inventory)) {
+            num = inventory;
+            $("#allNum").val(num);
+        }
+    });
 });
 
 $("#plusNum").on("click", function () {
